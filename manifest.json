@@ -1,0 +1,21 @@
+{
+    "name": "Odoo Confirm",
+    "description": "Asks you to confirm before sending a message in Odoo",
+    "version": "1.0",
+    "manifest_version": 3,
+    "permissions": ["scripting", "activeTab"],
+    "host_permissions": ["https://*.odoo.com/*"],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "action": {
+      "default_popup": "popup/popup.html",
+      "default_icon": "odoo-confirm.png"
+    },
+    "content_scripts": [
+      {
+        "matches": ["https://*.odoo.com/*"],
+        "js": ["content.js"]
+      }
+    ]
+  }
