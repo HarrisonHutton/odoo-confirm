@@ -1,23 +1,19 @@
 import { patch } from "@web/core/utils/patch";
 import { Composer } from "@mail/core/common/composer";
-
-// import { MessageConfirmDialog } from "@mail/core/common/message_confirm_dialog";
-// import { _t } from "@web/core/l10n/translation";
-// import { toRaw } from "@odoo/owl";
+import { ConfirmationDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
 
 patch(Composer.prototype, {
     async sendMessage() {
-        // Ideally we would use the confirm dialog from mail like this
-        // But composer.message does not exist yet
-        // const composer = toRaw(this.props.composer);
-        // this.env.services.dialog.add(MessageConfirmDialog, {
-        //     message: composer.message,
-        //     onConfirm: () => super.sendMessage(...arguments),
-        //     prompt: _t("Are you sure you want to send this message?"),
-        // });
-        if (this.props.type != "note" && !confirm("Are you sure you want to send this message?")) {
-            return;
+        if (this.props.type == "note") {
+            return await super.sendMessage(...arguments);
         }
-        await super.sendMessage(...arguments);
+        this.env.services.dialog.add(ConfirmationDialog, {
+            title: "Odoo Confirm ✅",
+            body: "Are you sure you want to send this message?",
+            confirm: async () => {
+                await super.sendMessage(...arguments);
+            },
+            cancel: () => { },
+        })
     }
 });
