@@ -1,16 +1,18 @@
 {
     "name": "Odoo Confirm",
-    "description": "Asks you to confirm before sending a message in Odoo",
+    "description": "Asks you to confirm before sending a message in Odoo.",
     "version": "1.0",
     "manifest_version": 3,
-    "permissions": ["scripting", "activeTab"],
     "host_permissions": ["https://*.odoo.com/*"],
-    "background": {
-      "service_worker": "background.js"
-    },
     "action": {
-      "default_popup": "popup/popup.html",
-      "default_icon": "odoo-confirm.png"
+      "default_icon": "icon.png"
+    },
+    "icons": {
+        "16": "icon.png",
+        "20": "icon.png",
+        "32": "icon.png",
+        "40": "icon.png",
+        "48": "icon.png"
     },
     "content_scripts": [
       {

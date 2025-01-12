@@ -22,7 +22,7 @@ interval = setInterval(() => {
                         return await super.sendMessage(...arguments);
                     }
                     this.env.services.dialog.add(ConfirmationDialog, {
-                        title: "Odoo Confirm ✅",
+                        title: "Odoo Confirm 😺",
                         body: "Are you sure you want to send this message?",
                         confirm: async () => {
                             await super.sendMessage(...arguments);
