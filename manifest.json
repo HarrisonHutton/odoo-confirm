@@ -14,8 +14,10 @@
     },
     "content_scripts": [
       {
+        "world": "MAIN",
         "matches": ["https://*.odoo.com/*"],
-        "js": ["content.js"]
+        "js": ["content.js"],
+        "run_at": "document_idle"
       }
     ]
   }
