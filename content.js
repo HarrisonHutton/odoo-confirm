@@ -1,5 +1,4 @@
-// Multiple attempts since modules are not available immediately
-attempts = 5;
+attempts = 3;
 
 interval = setInterval(() => {
     if (attempts <= 0) {
@@ -24,6 +23,7 @@ interval = setInterval(() => {
                     this.env.services.dialog.add(ConfirmationDialog, {
                         title: "Odoo Confirm 😺",
                         body: "Are you sure you want to send this message?",
+                        confirmLabel: "Send",
                         confirm: async () => {
                             await super.sendMessage(...arguments);
                         },
@@ -42,4 +42,4 @@ interval = setInterval(() => {
 
     clearInterval(interval);
     console.log("Odoo Confirm Loaded 🚀");
-}, 500);
+}, 2000);
