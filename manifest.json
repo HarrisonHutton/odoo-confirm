@@ -1,26 +1,36 @@
 {
-    "name": "Odoo Confirm",
-    "description": "Asks you to confirm before sending a message in Odoo.",
-    "version": "1.0",
-    "manifest_version": 3,
-    "host_permissions": ["https://*.odoo.com/*"],
-    "action": {
-      "default_icon": "icon.png"
-    },
-    "icons": {
-        "16": "icon.png",
-        "20": "icon.png",
-        "32": "icon.png",
-        "40": "icon.png",
-        "48": "icon.png"
-    },
-    "content_scripts": [
-      {
-        "world": "MAIN",
-        "matches": ["*://*.odoo.com/odoo*", "*://*.odoo.com/web*"],
-        "exclude_matches": ["*://*.odoo.com/odoo/login*", "*://*.odoo.com/web/login*"],
-        "js": ["content.js"],
-        "run_at": "document_idle"
-      }
-    ]
-  }
+  "name": "Odoo Confirm",
+  "description": "Asks you to confirm before sending a message in Odoo.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "host_permissions": [
+    "https://*.odoo.com/*"
+  ],
+  "action": {
+    "default_icon": "icon.png"
+  },
+  "icons": {
+    "16": "icon.png",
+    "20": "icon.png",
+    "32": "icon.png",
+    "40": "icon.png",
+    "48": "icon.png"
+  },
+  "content_scripts": [
+    {
+      "world": "MAIN",
+      "matches": [
+        "*://*.odoo.com/odoo*",
+        "*://*.odoo.com/web*"
+      ],
+      "exclude_matches": [
+        "*://*.odoo.com/odoo/login*",
+        "*://*.odoo.com/web/login*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
