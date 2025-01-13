@@ -9,7 +9,7 @@
     "demo": [],
     "assets": {
         "web.assets_backend": [
-            "odoo_confirm/static/src/core/common/composer_patch.js",
+            "odoo_confirm_module/static/src/core/common/composer_patch.js",
         ],
     },
 }
