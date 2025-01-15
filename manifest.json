@@ -1,7 +1,7 @@
 {
   "name": "Odoo Confirm",
   "description": "Asks you to confirm before sending a message in Odoo.",
-  "version": "1.0",
+  "version": "1.0.0",
   "manifest_version": 3,
   "host_permissions": [
     "https://*.odoo.com/*"
