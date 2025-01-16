@@ -25,7 +25,8 @@
       ],
       "exclude_matches": [
         "*://*.odoo.com/odoo/login*",
-        "*://*.odoo.com/web/login*"
+        "*://*.odoo.com/web/login*",
+        "*://mergebot.odoo.com/*"
       ],
       "js": [
         "content.js"
