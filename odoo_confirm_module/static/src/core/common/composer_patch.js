@@ -4,37 +4,37 @@ import { ConfirmationDialog } from "@web/core/confirmation_dialog/confirmation_d
 import { ViewButton } from "@web/views/view_button/view_button";
 import { registry, KeyNotFoundError } from "@web/core/registry";
 
+function addConfirmationDialog(callback) {
+    this.env.services.dialog.add(ConfirmationDialog, {
+        title: "Odoo Confirm 😺",
+        body: "Are you sure you want to send this message?",
+        confirmLabel: "Send",
+        confirm: callback,
+        cancel: () => { },
+    });
+}
+
 patch(Composer.prototype, {
     async sendMessage() {
-        if (this.props.type == "note") {
-            return await super.sendMessage(...arguments);
-        }
-        this.env.services.dialog.add(ConfirmationDialog, {
-            title: "Odoo Confirm 😺",
-            body: "Are you sure you want to send this message?",
-            confirmLabel: "Send",
-            confirm: async () => {
+        if (this.props.type !== "note" && this.props.mode === "extended") {
+            addConfirmationDialog.call(this, async () => {
                 await super.sendMessage(...arguments);
-            },
-            cancel: () => { },
-        })
+            });
+        } else {
+            await super.sendMessage(...arguments);
+        }
     }
 });
 
 patch(ViewButton.prototype, {
     onClick(ev) {
-        if (this.clickParams.name !== "action_send_mail" || this.props.record.data.subtype_is_log) {
-            return super.onClick(...arguments);
-        }
-        this.env.services.dialog.add(ConfirmationDialog, {
-            title: "Odoo Confirm 😺",
-            body: "Are you sure you want to send this message?",
-            confirmLabel: "Send",
-            confirm: () => {
+        if (this.clickParams.name === "action_send_mail" && !this.props.record.data.subtype_is_log) {
+            addConfirmationDialog.call(this, () => {
                 super.onClick(...arguments);
-            },
-            cancel: () => { },
-        })
+            });
+        } else {
+            super.onClick(...arguments);
+        }
     }
 });
 
@@ -43,18 +43,13 @@ try {
     const MailComposerSendDropdown = registry.category("view_widgets").get("mail_composer_send_dropdown").component;
     patch(MailComposerSendDropdown.prototype, {
         async onClickSend() {
-            if (this.props.record.data.subtype_is_log) {
-                return await super.onClickSend(...arguments);
-            }
-            this.env.services.dialog.add(ConfirmationDialog, {
-                title: "Odoo Confirm 😺",
-                body: "Are you sure you want to send this message?",
-                confirmLabel: "Send",
-                confirm: async () => {
+            if (!this.props.record.data.subtype_is_log) {
+                addConfirmationDialog.call(this, async () => {
                     await super.onClickSend(...arguments);
-                },
-                cancel: () => { },
-            })
+                });
+            } else {
+                await super.onClickSend(...arguments);
+            }
         }
     });
 } catch (e) {
