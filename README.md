@@ -1,5 +1,5 @@
 # Odoo Confirm 😺
-A minimal Chrome extension to make sure you don't accidentally "Send Message" instead of "Log Note".
+An unofficial Chrome extension to make sure you don't accidentally "Send Message" instead of "Log Note".
 
 Supports Odoo 17.0+
 
