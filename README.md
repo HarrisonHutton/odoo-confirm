@@ -6,6 +6,8 @@ Supports Odoo 17.0+
 ## Installation
 Install from the [Chrome Web Store](https://chromewebstore.google.com/detail/odoo-confirm/nbgpibhiphkbaphjdaejedjbajaccacb)
 
+_(Don't forget to refresh any existing Odoo tabs)_
+
 ## How to use?
 When the extension is installed & active, the following confirmation dialog will pop up whenever you send a message:
 ![image](https://github.com/user-attachments/assets/c4e6d1cc-9df4-46a7-8dcd-b72d54516cce)
