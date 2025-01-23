@@ -1,7 +1,7 @@
 {
   "name": "Odoo Confirm",
   "description": "Asks you to confirm before sending a message in Odoo.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "manifest_version": 3,
   "action": {
     "default_icon": "icon.png"
@@ -16,14 +16,13 @@
     {
       "world": "MAIN",
       "matches": [
-        "*://*.odoo.com/odoo*",
-        "*://*.odoo.com/web*"
+        "*://*.odoo.com/odoo/*",
+        "*://*.odoo.com/web/*"
       ],
       "exclude_matches": [
         "*://*.odoo.com/odoo/login*",
         "*://*.odoo.com/web/login*",
-        "*://mergebot.odoo.com/*",
-        "*://*.odoo.com/odoo-sh*"
+        "*://mergebot.odoo.com/*"
       ],
       "js": [
         "content.js"
