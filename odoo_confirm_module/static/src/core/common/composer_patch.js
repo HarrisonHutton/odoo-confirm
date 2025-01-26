@@ -16,7 +16,7 @@ function addConfirmationDialog(callback) {
 
 patch(Composer.prototype, {
     async sendMessage() {
-        if (this.props.type !== "note" && this.props.mode === "extended") {
+        if (this.props.type === "message" && this.props.mode === "extended") {
             addConfirmationDialog.call(this, async () => {
                 await super.sendMessage(...arguments);
             });
