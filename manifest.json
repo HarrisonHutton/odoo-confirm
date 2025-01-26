@@ -17,7 +17,8 @@
       "world": "MAIN",
       "matches": [
         "*://*.odoo.com/odoo/*",
-        "*://*.odoo.com/web/*"
+        "*://*.odoo.com/web/*",
+        "*://*.odoo.com/web"
       ],
       "exclude_matches": [
         "*://*.odoo.com/odoo/login*",
