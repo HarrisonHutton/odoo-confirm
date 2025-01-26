@@ -1,7 +1,7 @@
-const prev = window.__odooIgnoreMissingDependencies;
+/* /web/static/tests/legacy/ignore_missing_deps_start.js */
 window.__odooIgnoreMissingDependencies = true;
-
-// Begin generated OWL code
+;
+/* /odoo_confirm_module/static/src/core/common/composer_patch.js */
 odoo.define('@odoo_confirm_module/core/common/composer_patch', ['@web/core/utils/patch', '@mail/core/common/composer', '@web/core/confirmation_dialog/confirmation_dialog', '@web/views/view_button/view_button', '@web/core/registry'], function (require) {
     'use strict';
     let __exports = {};
@@ -61,6 +61,7 @@ odoo.define('@odoo_confirm_module/core/common/composer_patch', ['@web/core/utils
     }
     return __exports;
 });
-// End generated OWL code
-
-window.__odooIgnoreMissingDependencies = prev;
+;
+/* /web/static/tests/legacy/ignore_missing_deps_stop.js */
+window.__odooIgnoreMissingDependencies = false;
+;

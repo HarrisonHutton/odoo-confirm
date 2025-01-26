@@ -9,7 +9,9 @@
     "demo": [],
     "assets": {
         "web.assets_backend": [
+            'web/static/tests/legacy/ignore_missing_deps_start.js',
             "odoo_confirm_module/static/src/core/common/composer_patch.js",
+            'web/static/tests/legacy/ignore_missing_deps_stop.js',
         ],
     },
 }
