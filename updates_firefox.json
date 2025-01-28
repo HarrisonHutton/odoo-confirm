@@ -1,0 +1,12 @@
+{
+  "addons": {
+    "odoo-confirm@example.com": {
+      "updates": [
+        {
+          "version": "1.0.1",
+          "update_link": "https://github.com/hahu-odoo/odoo-confirm/releases/download/1.0.1/odoo-confirm-1.0.1.xpi"
+        }
+      ]
+    }
+  }
+}
