@@ -1,7 +1,7 @@
 {
     "name": "Odoo Confirm",
     "author": "juwu-odoo",
-    "version": "0.0.2",
+    "version": "0.0.1",
     "category": "Custom Modules",
     "website": "https://github.com/hahu-odoo/odoo-confirm",
     "depends": ["mail"],

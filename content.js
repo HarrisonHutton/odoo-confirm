@@ -2,7 +2,7 @@
 window.__odooIgnoreMissingDependencies = true;
 ;
 /* /odoo_confirm_module/static/src/core/common/composer_patch.js */
-odoo.define('@odoo_confirm_module/core/common/composer_patch', ['@web/core/utils/patch', '@mail/core/common/composer', '@web/views/view_button/view_button', '@web/core/registry', '@mail/core/common/message_confirm_dialog', '@web/core/l10n/translation', '@odoo/owl', '@web/core/user', '@mail/utils/common/format', '@web/core/utils/hooks'], function (require) {
+odoo.define('@odoo_confirm_module/core/common/composer_patch', ['@web/core/utils/patch', '@mail/core/common/composer', '@web/views/view_button/view_button', '@web/core/registry', '@mail/core/common/message_confirm_dialog', '@mail/core/common/message', '@mail/utils/common/format', '@web/core/utils/hooks'], function (require) {
     'use strict';
     let __exports = {};
     const { patch } = require("@web/core/utils/patch");
@@ -10,35 +10,41 @@ odoo.define('@odoo_confirm_module/core/common/composer_patch', ['@web/core/utils
     const { ViewButton } = require("@web/views/view_button/view_button");
     const { registry, KeyNotFoundError } = require("@web/core/registry");
     const { MessageConfirmDialog } = require("@mail/core/common/message_confirm_dialog");
-    const { _t } = require("@web/core/l10n/translation");
-    const { toRaw } = require("@odoo/owl");
-    const { user } = require("@web/core/user");
+    const { Message } = require("@mail/core/common/message");
     const { prettifyMessageContent } = require("@mail/utils/common/format");
     const { useService } = require("@web/core/utils/hooks");
-    
-    async function addConfirmationDialog(message, callback) {
+    const userModule = require("@web/core/user");
+    async function addConfirmationDialog(body, attachment_ids, callback) {
+        const service = this.store["mail.message"] ? this.store["mail.message"] : this.store.Message;
+        const message = service.insert({
+            body,
+            attachment_ids,
+            attachments: attachment_ids,
+            author: this.store.Persona.get({
+                type: "partner",
+                id: this.user.partnerId
+            })
+        }, { html: true });
         this.env.services.dialog.add(MessageConfirmDialog, {
             title: "Odoo Confirm 😺",
-            prompt: _t("Are you sure you want to send this message?"),
-            message: message,
-            confirmText: _t("Send it!"),
+            prompt: "Are you sure you want to send this message?",
+            message,
+            messageComponent: Message,
+            confirmText: "Send",
             onConfirm: callback,
             close: () => { },
         });
     }
     patch(Composer.prototype, {
+        setup() {
+            this.user = userModule ? userModule.user : useService("user");
+            super.setup();
+        },
         async sendMessage() {
             if (this.props.type === "message" && this.props.mode === "extended") {
-                const composer = toRaw(this.props.composer);
-                const prettyContent = await prettifyMessageContent(composer.text);
-                const message = composer.store["mail.message"].insert({
-                    body: prettyContent,
-                    author: composer.store.Persona.get({
-                        type: "partner",
-                        id: user.partnerId
-                    })
-                }, { html: true });
-                await addConfirmationDialog.call(this, message, async () => {
+                const text = this.props.composer.textInputContent ? this.props.composer.textInputContent : this.props.composer.text;
+                const body = await prettifyMessageContent(text);
+                await addConfirmationDialog.call(this, body, this.props.composer.attachments, async () => {
                     await super.sendMessage(...arguments);
                 });
             } else {
@@ -49,19 +55,12 @@ odoo.define('@odoo_confirm_module/core/common/composer_patch', ['@web/core/utils
     patch(ViewButton.prototype, {
         setup() {
             this.store = useService("mail.store");
+            this.user = userModule ? userModule.user : useService("user");
             super.setup();
         },
-    
         onClick(ev) {
             if (this.clickParams.name === "action_send_mail" && !this.props.record.data.subtype_is_log) {
-                const message = this.store["mail.message"].insert({
-                    body: this.props.record.data.body,
-                    author: this.store.Persona.get({
-                        type: "partner",
-                        id: user.partnerId
-                    })
-                }, { html: true });
-                addConfirmationDialog.call(this, message, () => {
+                addConfirmationDialog.call(this, this.props.record.data.body, [], async () => {
                     super.onClick(...arguments);
                 });
             } else {
@@ -70,24 +69,16 @@ odoo.define('@odoo_confirm_module/core/common/composer_patch', ['@web/core/utils
         }
     });
     try {
-        // MailComposerSendDropdown is not exported, so we get it from the registry
         const MailComposerSendDropdown = registry.category("view_widgets").get("mail_composer_send_dropdown").component;
         patch(MailComposerSendDropdown.prototype, {
             setup() {
                 this.store = useService("mail.store");
+                this.user = userModule.user;
                 super.setup();
             },
-    
             async onClickSend() {
                 if (!this.props.record.data.subtype_is_log) {
-                    const message = this.store["mail.message"].insert({
-                        body: this.props.record.data.body,
-                        author: this.store.Persona.get({
-                            type: "partner",
-                            id: user.partnerId
-                        })
-                    }, { html: true });
-                    addConfirmationDialog.call(this, message, async () => {
+                    addConfirmationDialog.call(this, this.props.record.data.body, [], async () => {
                         await super.onClickSend(...arguments);
                     });
                 } else {
@@ -96,7 +87,6 @@ odoo.define('@odoo_confirm_module/core/common/composer_patch', ['@web/core/utils
             }
         });
     } catch (e) {
-        // Odoo versions before 18.0 don't have the MailComposerSendDropdown component
         if (!e instanceof KeyNotFoundError) {
             throw e;
         }
