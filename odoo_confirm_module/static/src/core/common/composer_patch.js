@@ -1,23 +1,48 @@
 import { patch } from "@web/core/utils/patch";
 import { Composer } from "@mail/core/common/composer";
-import { ConfirmationDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
 import { ViewButton } from "@web/views/view_button/view_button";
 import { registry, KeyNotFoundError } from "@web/core/registry";
+import { MessageConfirmDialog } from "@mail/core/common/message_confirm_dialog";
+import { Message } from "@mail/core/common/message";
+import { prettifyMessageContent } from "@mail/utils/common/format";
+import { useService } from "@web/core/utils/hooks";
+const userModule = require("@web/core/user"); // 17.0 compatibility
 
-function addConfirmationDialog(callback) {
-    this.env.services.dialog.add(ConfirmationDialog, {
+async function addConfirmationDialog(body, attachment_ids, callback) {
+    // Message renamed in saas-18.1
+    const service = this.store["mail.message"] ? this.store["mail.message"] : this.store.Message;
+    const message = service.insert({
+        body,
+        attachment_ids,
+        attachments: attachment_ids, // 17.0 compatibility
+        author: this.store.Persona.get({
+            type: "partner",
+            id: this.user.partnerId
+        })
+    }, { html: true });
+
+    this.env.services.dialog.add(MessageConfirmDialog, {
         title: "Odoo Confirm 😺",
-        body: "Are you sure you want to send this message?",
-        confirmLabel: "Send",
-        confirm: callback,
-        cancel: () => { },
+        prompt: "Are you sure you want to send this message?",
+        message,
+        messageComponent: Message, // 17.0 compatibility
+        confirmText: "Send",
+        onConfirm: callback,
+        close: () => { },
     });
 }
 
 patch(Composer.prototype, {
+    setup() {
+        this.user = userModule ? userModule.user : useService("user");
+        super.setup();
+    },
+
     async sendMessage() {
         if (this.props.type === "message" && this.props.mode === "extended") {
-            addConfirmationDialog.call(this, async () => {
+            const text = this.props.composer.textInputContent ? this.props.composer.textInputContent : this.props.composer.text; // 17.0 compatibility
+            const body = await prettifyMessageContent(text);
+            await addConfirmationDialog.call(this, body, this.props.composer.attachments, async () => {
                 await super.sendMessage(...arguments);
             });
         } else {
@@ -27,9 +52,15 @@ patch(Composer.prototype, {
 });
 
 patch(ViewButton.prototype, {
+    setup() {
+        this.store = useService("mail.store");
+        this.user = userModule ? userModule.user : useService("user");
+        super.setup();
+    },
+
     onClick(ev) {
         if (this.clickParams.name === "action_send_mail" && !this.props.record.data.subtype_is_log) {
-            addConfirmationDialog.call(this, () => {
+            addConfirmationDialog.call(this, this.props.record.data.body, [], async () => {
                 super.onClick(...arguments);
             });
         } else {
@@ -38,13 +69,20 @@ patch(ViewButton.prototype, {
     }
 });
 
+// 18.0 full composer uses MailComposerSendDropdown
 try {
     // MailComposerSendDropdown is not exported, so we get it from the registry
     const MailComposerSendDropdown = registry.category("view_widgets").get("mail_composer_send_dropdown").component;
     patch(MailComposerSendDropdown.prototype, {
+        setup() {
+            this.store = useService("mail.store");
+            this.user = userModule.user;
+            super.setup();
+        },
+
         async onClickSend() {
             if (!this.props.record.data.subtype_is_log) {
-                addConfirmationDialog.call(this, async () => {
+                addConfirmationDialog.call(this, this.props.record.data.body, [], async () => {
                     await super.onClickSend(...arguments);
                 });
             } else {
@@ -53,7 +91,6 @@ try {
         }
     });
 } catch (e) {
-    // Odoo versions before 18.0 don't have the MailComposerSendDropdown component
     if (!e instanceof KeyNotFoundError) {
         throw e;
     }
