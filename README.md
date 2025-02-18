@@ -14,7 +14,7 @@ _(Don't forget to refresh any existing Odoo tabs)_
 
 ## How to use?
 When the extension is installed & active, the following confirmation dialog will pop up whenever you send a message:
-![image](https://github.com/user-attachments/assets/c4e6d1cc-9df4-46a7-8dcd-b72d54516cce)
+![image](https://github.com/user-attachments/assets/4ad44b6a-cc22-4262-ab80-8f0de9f9b005)
 
 ## Development
 Chrome:
