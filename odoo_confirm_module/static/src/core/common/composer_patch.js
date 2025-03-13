@@ -59,8 +59,9 @@ patch(ViewButton.prototype, {
     },
 
     onClick(ev) {
-        if (this.clickParams.name === "action_send_mail" && !this.props.record.data.subtype_is_log) {
-            addConfirmationDialog.call(this, this.props.record.data.body, [], async () => {
+        const data = this.props.record.data;
+        if (this.clickParams.name === "action_send_mail" && !data.subtype_is_log) {
+            addConfirmationDialog.call(this, data.body, data.attachment_ids._currentIds, async () => {
                 super.onClick(...arguments);
             });
         } else {
@@ -81,8 +82,9 @@ try {
         },
 
         async onClickSend() {
-            if (!this.props.record.data.subtype_is_log) {
-                addConfirmationDialog.call(this, this.props.record.data.body, [], async () => {
+            const data = this.props.record.data;
+            if (!data.subtype_is_log) {
+                addConfirmationDialog.call(this, data.body, data.attachment_ids._currentIds, async () => {
                     await super.onClickSend(...arguments);
                 });
             } else {
