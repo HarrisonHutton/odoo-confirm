@@ -34,8 +34,7 @@
   ],
   "browser_specific_settings": {
     "gecko": {
-      "id": "odoo-confirm@example.com",
-      "update_url": "https://raw.githubusercontent.com/hahu-odoo/odoo-confirm/refs/heads/main/updates_firefox.json"
+      "id": "odoo-confirm@example.com"
     }
   }
 }
