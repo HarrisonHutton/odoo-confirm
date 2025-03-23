@@ -8,7 +8,7 @@ Chrome:
 - Install from the [Chrome Web Store](https://chromewebstore.google.com/detail/odoo-confirm/nbgpibhiphkbaphjdaejedjbajaccacb)
 
 Firefox:
-- Install from our [Latest Github Release](https://github.com/hahu-odoo/odoo-confirm/releases/download/1.1.0/odoo-confirm-1.1.0.xpi)
+- Install from the [Firefox Add-ons Store](https://addons.mozilla.org/addon/odoo-confirm/)
 
 _(Don't forget to refresh any existing Odoo tabs)_
 
