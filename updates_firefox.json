@@ -1,0 +1,24 @@
+{
+  "addons": {
+    "odoo-confirm@example.com": {
+      "updates": [
+        {
+          "version": "1.0.1",
+          "update_link": "https://github.com/hahu-odoo/odoo-confirm/releases/download/1.0.1/odoo-confirm-1.0.1.xpi"
+        },
+        {
+          "version": "1.0.2",
+          "update_link": "https://github.com/hahu-odoo/odoo-confirm/releases/download/1.0.2/odoo-confirm-1.0.2.xpi"
+        },
+        {
+          "version": "1.1.0",
+          "update_link": "https://github.com/hahu-odoo/odoo-confirm/releases/download/1.1.0/odoo-confirm-1.1.0.xpi"
+        },
+        {
+          "version": "1.1.1",
+          "update_link": "https://github.com/HarrisonHutton/odoo-confirm/releases/download/1.1.1/odoo-confirm-1.1.1.xpi"
+        }
+      ]
+    }
+  }
+}
