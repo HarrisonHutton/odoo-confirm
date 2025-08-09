@@ -30,7 +30,4 @@ Firefox:
 4. Click "Load Temporary Add-on"
 5. Open the extension's directory and select any file inside the extension
 
-Develop on the custom Odoo module `odoo_confirm_module`.
-Then "build" by pasting the compiled Owl code from `web.assets_web.js` into `content.js` to be run by the Chrome extension.
-
 Improvements / fixes / PR's welcome :)
