@@ -4,7 +4,7 @@ function loadOdooConfirm() {
         return;
     }
 
-    const supportedVersions = ['18.0', 'saas~18.2', 'saas~18.3', 'saas~18.4'];
+    const supportedVersions = ['18.0', 'saas~18.2', 'saas~18.3', 'saas~18.4', '19.0'];
     if (!supportedVersions.includes(version)) {
         console.log(`😿 Odoo Confirm does not support Odoo version ${version} (yet)
 Make a request at https://github.com/HarrisonHutton/odoo-confirm/issues`);
