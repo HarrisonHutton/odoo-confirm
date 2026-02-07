@@ -1,4 +1,8 @@
 function loadOdooConfirm() {
+    if (document.documentElement.dataset.odooConfirmActive === 'false') {
+        return;
+    }
+
     const version = window.odoo?.info?.server_version?.replace(/\+e$/, '');
     if (!version) {
         return;
