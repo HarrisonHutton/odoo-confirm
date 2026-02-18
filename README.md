@@ -16,6 +16,14 @@ _(Don't forget to refresh any existing Odoo tabs)_
 When the extension is installed & active, the following confirmation dialog will pop up whenever you send a message:
 ![image](https://github.com/user-attachments/assets/4ad44b6a-cc22-4262-ab80-8f0de9f9b005)
 
+## Options
+You can optionally restrict the confirmation to specific domains. Right-click the extension icon → **Options** (or go to your browser's extension settings) to:
+- Enable/disable domain filtering
+- Choose between **Whitelist** (confirmation only on listed domains) and **Blacklist** (confirmation everywhere except listed domains)
+- Manage your domain list (supports wildcards like `*.odoo.com`)
+
+When filtering is disabled, the extension works on all Odoo instances as usual.
+
 ## Development
 Chrome:
 1. Clone this repository.

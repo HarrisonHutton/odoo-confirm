@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odoo Confirm – Options</title>
+    <link rel="stylesheet" href="options.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Odoo Confirm 😺</h1>
+            <p class="subtitle">Asks you to confirm before sending a message in Odoo</p>
+        </header>
+
+        <section class="card">
+            <div class="setting-row">
+                <label class="toggle-label" for="filter-enabled">
+                    <span class="label-text">Enable domain filtering</span>
+                    <input type="checkbox" id="filter-enabled" class="toggle-input">
+                    <span class="toggle-switch"></span>
+                </label>
+            </div>
+
+            <div id="filter-options" class="filter-options disabled">
+                <div class="setting-row mode-selection">
+                    <span class="label-text">Filter mode</span>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="filter-mode" value="whitelist" checked>
+                            <span class="radio-mark"></span>
+                            Whitelist
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="filter-mode" value="blacklist">
+                            <span class="radio-mark"></span>
+                            Blacklist
+                        </label>
+                    </div>
+                </div>
+
+                <div class="help-box" id="mode-help">
+                    <p id="help-text">
+                        <strong>Whitelist:</strong> Confirmation will only appear on the domains listed below
+                    </p>
+                </div>
+
+                <div class="domain-section">
+                    <h2>Domains</h2>
+                    <div class="domain-input-row">
+                        <input
+                            type="text"
+                            id="domain-input"
+                            placeholder="e.g. mycompany.odoo.com or *.odoo.com"
+                            autocomplete="off"
+                            spellcheck="false"
+                        >
+                        <button id="add-domain-btn" type="button">Add</button>
+                    </div>
+                    <p id="domain-error" class="error-text" hidden></p>
+
+                    <ul id="domain-list" class="domain-list">
+                        <li class="empty-state">No domains added yet</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <span id="status-message" class="status-message" hidden></span>
+        </footer>
+    </div>
+
+    <script src="../storage.js"></script>
+    <script src="../domain-filter.js"></script>
+    <script src="options.js"></script>
+</body>
+</html>
