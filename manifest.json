@@ -1,51 +1,53 @@
 {
-  "name": "Odoo Confirm",
-  "description": "Asks you to confirm before sending a message in Odoo.",
-  "version": "1.3.0",
-  "manifest_version": 3,
-  "action": {
-    "default_icon": "icon.png"
-  },
-  "icons": {
-    "16": "icon.png",
-    "32": "icon.png",
-    "48": "icon.png",
-    "128": "icon.png"
-  },
-  "permissions": ["storage"],
-  "options_ui": {
-    "page": "options/options.html",
-    "open_in_tab": true
-  },
-  "content_scripts": [
-    {
-      "matches": [
-        "https://*/odoo*"
-      ],
-      "js": [
-        "storage.js",
-        "domain-filter.js",
-        "domain-checker.js"
-      ],
-      "run_at": "document_start"
+    "name": "Odoo Confirm",
+    "description": "Asks you to confirm before sending a message in Odoo.",
+    "version": "1.3.1",
+    "manifest_version": 3,
+    "action": {
+        "default_icon": "icon.png"
     },
-    {
-      "world": "MAIN",
-      "matches": [
-        "https://*/odoo*"
-      ],
-      "js": [
-        "lib/18.0.js",
-        "lib/saas-18.2.js",
-        "lib/saas-18.4.js",
-        "lib/19.0.js",
-        "content.js"
-      ]
+    "icons": {
+        "16": "icon.png",
+        "32": "icon.png",
+        "48": "icon.png",
+        "128": "icon.png"
+    },
+    "permissions": [
+        "storage"
+    ],
+    "options_ui": {
+        "page": "options/options.html",
+        "open_in_tab": true
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://*/odoo*"
+            ],
+            "js": [
+                "storage.js",
+                "domain-filter.js",
+                "domain-checker.js"
+            ],
+            "run_at": "document_start"
+        },
+        {
+            "world": "MAIN",
+            "matches": [
+                "https://*/odoo*"
+            ],
+            "js": [
+                "lib/18.0.js",
+                "lib/saas-18.2.js",
+                "lib/saas-18.4.js",
+                "lib/19.0.js",
+                "content.js"
+            ]
+        }
+    ],
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "odoo-confirm@example.com"
+        }
     }
-  ],
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "odoo-confirm@example.com"
-    }
-  }
 }
